@@ -20,12 +20,17 @@ try {
     // while ($row = $result->fetch()) {
     //     $jokes[] = $row['joketext'];
     // }
-    foreach($result as $row){
-        $jokes[]= $row['joketext'];
-    }
-    
 
-    $output = 'Connected to the db';
+    foreach ($result as $row) {
+        $jokes[] = $row['joketext'];
+    }
+
+    $title = 'Jokes';
+    $output = '';
+
+    foreach ($jokes as $joke) {
+        $output .= '<blockquote><p> ' . $joke . '</p></blockquote>';
+    }
 } catch (\Throwable $e) {
     $error = 'Error: Unable to connect to the db ' .
         $e->getMessage() . ' in' . $e->getFile() . ': Line ' .
