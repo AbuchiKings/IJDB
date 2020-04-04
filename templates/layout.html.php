@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="jokes.css">
+    <link rel="stylesheet" href="form.css">
     <title><?= $title; ?></title>
 </head>
 
@@ -17,6 +18,7 @@
         <ul>
             <li><a href="index.php">Home</a></li>
             <li><a href="jokes.php">Jokes</a></li>
+            <li><a href="addjoke.php">Add Joke</a></li>
         </ul>
     </nav>
 

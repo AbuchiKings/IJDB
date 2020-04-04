@@ -26,18 +26,17 @@ try {
     }
 
     $title = 'Jokes';
-    $output = '';
-
-    foreach ($jokes as $joke) {
-        $output .= '<blockquote><p> ' . $joke . '</p></blockquote>';
-    }
+    ob_start();
+    include __DIR__ . '/../templates/jokes.html.php';
+    $output = ob_get_clean();
 } catch (\Throwable $e) {
-    $error = 'Error: Unable to connect to the db ' .
+    $title = 'An error has occured';
+    $output = 'Error: Unable to connect to the db ' .
         $e->getMessage() . ' in' . $e->getFile() . ': Line ' .
         $e->getLine();
 }
 
-include __DIR__ . '/../templates/output.html.php';
+include __DIR__ . '/../templates/layout.html.php';
 
 // $add = 'INSERT INTO `joke` VALUES 
 // (1,'How many programmers does it take to screw in a lightbulb? None, it\'s a hardware problem.','2017-04-01',1),
