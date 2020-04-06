@@ -5,6 +5,8 @@
 
  body {
      font-family: Arial, Helvetica, Sans-serif;
+     min-height: 100vh;
+     position: relative;
  }
 
  header {

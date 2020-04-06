@@ -1,10 +1,6 @@
 <?php
 try {
-    $pdo = new PDO(
-        'mysql: host=localhost;dbname=homestead;charset=utf8',
-        'homestead',
-        'secret'
-    );
+    include __DIR__ . '/../includes/DatabaseConnection.php';
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     $sql = 'CREATE TABLE IF NOT EXISTS joke(
         id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -12,18 +8,24 @@ try {
         jokedate DATE NOT NULL
     ) DEFAULT CHARACTER SET utf8 ENGINE=InnoDB';
 
-    $getAll = 'SELECT `joketext` FROM `joke`';
+    $users = 'CREATE TABLE IF NOT EXISTS author(
+        id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+        `name` VARCHAR(255),
+        `email` VARCHAR(255)
+    ) DEFAULT CHARACTER SET utf8 ENGINE=InnoDB';
 
     $pdo->exec($sql);
-    $result = $pdo->query($getAll);
+    $pdo->exec($users);
+
+
+    $getAll = 'SELECT `joke`.`id`, `joketext`, `name`, `email`
+     FROM `joke` INNER JOIN `author` ON `authorid` =`author`.`id`';
+    $jokes = $pdo->query($getAll);
+
 
     // while ($row = $result->fetch()) {
     //     $jokes[] = $row['joketext'];
     // }
-
-    foreach ($result as $row) {
-        $jokes[] = $row['joketext'];
-    }
 
     $title = 'Jokes';
     ob_start();
@@ -38,6 +40,15 @@ try {
 
 include __DIR__ . '/../templates/layout.html.php';
 
+
+// $addAuthor = 'INSERT INTO `author` (`id`, `name`, `email`)
+// VALUES (1, "Tom Butler", "tombutler@email.com"),
+// (2, "Abuchi Kings", "abuchikings@email.com")';
+
+ //$alter = 'ALTER TABLE `joke` DROP COLUMN `authorname`';
+ //$alter = 'ALTER TABLE `joke` ADD COLUMN `authorid` INT';
+ //$pdo->exec($alter);
+ //$pdo->exec($addAuthor);
 // $add = 'INSERT INTO `joke` VALUES 
 // (1,'How many programmers does it take to screw in a lightbulb? None, it\'s a hardware problem.','2017-04-01',1),
 // (2,'Why did the programmer quit his job? He didn\'t get arrays','2017-04-01',1),

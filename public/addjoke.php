@@ -1,9 +1,7 @@
 <?php
 if (isset($_POST['joketext'])) {
     try {
-        $pdo = new PDO('mysql:host=localhost;dbname=homestead;
-        charset=utf8', 'homestead', 'secret');
-        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        include __DIR__ . '/../includes/DatabaseConnection.php';
 
         $sql = 'INSERT INTO `joke` SET
         `joketext` = :joketext,
@@ -16,7 +14,9 @@ if (isset($_POST['joketext'])) {
         header('location: jokes.php');
     } catch (\PDOException $e) {
         $title = 'An error has occured';
-        $output = 'Database error';
+        $output = 'Error: Unable to connect to the db ' .
+            $e->getMessage() . ' in' . $e->getFile() . ': Line ' .
+            $e->getLine();
     }
 } else {
     $title = 'Add a new joke';
