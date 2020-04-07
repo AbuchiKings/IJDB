@@ -19,10 +19,7 @@ try {
     $pdo->exec($sql);
     $pdo->exec($users);
 
-
-    $getAll = 'SELECT `joke`.`id`, `joketext`, `name`, `email`
-     FROM `joke` INNER JOIN `author` ON `authorid` =`author`.`id`';
-    $jokes = $pdo->query($getAll);
+    $jokes = allJokes($pdo);
 
 
     // while ($row = $result->fetch()) {
