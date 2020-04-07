@@ -1,11 +1,13 @@
 <?php
 try {
     include __DIR__ . '/../includes/DatabaseConnection.php';
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    include __DIR__ . '/../includes/DatabaseFunctions.php';
+
     $sql = 'CREATE TABLE IF NOT EXISTS joke(
         id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
         joketext TEXT,
-        jokedate DATE NOT NULL
+        jokedate DATE NOT NULL 
     ) DEFAULT CHARACTER SET utf8 ENGINE=InnoDB';
 
     $users = 'CREATE TABLE IF NOT EXISTS author(
@@ -26,7 +28,7 @@ try {
     // while ($row = $result->fetch()) {
     //     $jokes[] = $row['joketext'];
     // }
-
+    $totalJokes = totalJokes($pdo);
     $title = 'Jokes';
     ob_start();
     include __DIR__ . '/../templates/jokes.html.php';
