@@ -25,7 +25,7 @@ try {
     // while ($row = $result->fetch()) {
     //     $jokes[] = $row['joketext'];
     // }
-    $totalJokes = totalJokes($pdo);
+    $totalJokes = total($pdo, 'joke');
     $title = 'Jokes';
     ob_start();
     include __DIR__ . '/../templates/jokes.html.php';
