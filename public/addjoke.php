@@ -5,8 +5,10 @@ try {
         include __DIR__ . '/../includes/DatabaseConnection.php';
         include __DIR__ . '/../includes/DatabaseFunctions.php';
 
-        insertJoke($pdo, $_POST['joketext'], 1);
-
+        insertJoke($pdo, ['authorId' => 1,
+        'jokeText' => $_POST['joketext'],
+        'jokedate' => new DateTime()
+        ]);
         header('location: jokes.php');
     } else {
         $title = 'Add a new joke';

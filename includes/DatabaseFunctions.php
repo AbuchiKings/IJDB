@@ -8,6 +8,16 @@ function query($pdo, $sql, $parameters = [])
     return $query;
 }
 
+function processDates($fields)
+{
+    foreach ($fields as $key => $value) {
+        if ($value instanceof DateTime) {
+            $fields[$key] = $value->format('Y-m-d');
+        }
+    }
+    return $fields;
+}
+
 function totalJokes($pdo)
 {
     $query = query($pdo, 'SELECT COUNT(*) FROM `joke`');
@@ -22,20 +32,35 @@ function getJoke($pdo, $id)
     return $query->fetch();
 }
 
-function insertJoke($pdo, $joketext, $authorid)
+function insertJoke($pdo, $fields)
 {
-    $sql = 'INSERT INTO `joke`(`joketext`, jokedate, `authorid`)
-    VALUES (:joketext, CURDATE(), :authorid)';
-    //$date = date('Y') . '-' . date('m') . '-' . date('d');
-    $parameters = [':joketext' => $joketext, ':authorid' => $authorid];
-    query($pdo, $sql, $parameters);
+    $query = 'INSERT INTO `joke` (';
+    foreach ($fields as $key => $value) {
+        $query .= '`' . $key . '`,';
+    }
+    $query = rtrim($query, ',');
+    $query .= ') VALUES (';
+    foreach ($fields as $key => $value) {
+        $query .= ':' . $key . ',';
+    }
+    $query = rtrim($query, ',');
+    $query .= ')';
+    $fields = processDates($fields);
+    query($pdo, $query, $fields);
 }
 
-function updateJoke($pdo, $jokeId, $joketext, $authorid)
+function updateJoke($pdo, $fields)
 {
-    $parameters = [':authorid' => $authorid, ':joketext' => $joketext, ':id' => $jokeId];
-    $sql =  'UPDATE `joke` SET `authorid` = :authorid, `joketext` = :joketext WHERE `id` = :id';
-    query($pdo, $sql, $parameters);
+    $query = ' UPDATE `joke` SET ';
+    foreach ($fields as $key => $value) {
+        $query .= '`' . $key . '` = :' . $key . ',';
+    }
+    $query = rtrim($query, ',');
+    $query .= ' WHERE `id` = :primaryKey';
+    // Set the :primaryKey variable
+    $fields['primaryKey'] = $fields['id'];
+    $fields = processDates($fields);
+    query($pdo, $query, $fields);
 }
 
 function deleteJoke($pdo, $id)
@@ -47,7 +72,7 @@ function deleteJoke($pdo, $id)
 
 function allJokes($pdo)
 {
-    $sql = 'SELECT `joke`.`id`, `joketext`, `name`, `email`
+    $sql = 'SELECT `joke`.`id`, `joketext`, `jokedate`,`name`, `email`
     FROM `joke` INNER JOIN `author` ON `authorid` = `author`.`id`';
     $jokes =  query($pdo, $sql);
     return $jokes->fetchAll();
