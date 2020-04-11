@@ -2,11 +2,11 @@
 
 class DatabaseTable
 {
-    public $pdo;
-    public $table;
-    public $primaryKey;
+    private $pdo;
+    private $table;
+    private $primaryKey;
 
-    public function __construct($pdo, $table, $primaryKey)
+    public function __construct(PDO $pdo, string $table, string $primaryKey)
     {
         $this->pdo = $pdo;
         $this->table = $table;
@@ -74,9 +74,9 @@ class DatabaseTable
             if ($record[$this->primaryKey] == '') {
                 $record[$this->primaryKey] = null;
             }
-            $this->insert($this->pdo, $this->table, $record);
+            $this->insert($record);
         } catch (PDOException $e) {
-            $this->update($this->pdo, $this->table, $this->primaryKey, $record);
+            $this->update( $record);
         }
     }
 

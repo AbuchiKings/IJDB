@@ -2,7 +2,7 @@
 try {
     include __DIR__ . '/../includes/DatabaseConnection.php';
 
-    include __DIR__ . '/../includes/DatabaseFunctions.php';
+    include __DIR__ . '/../classes/DatabaseTable.php';
 
     $sql = 'CREATE TABLE IF NOT EXISTS joke(
         id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -18,14 +18,15 @@ try {
 
     $pdo->exec($sql);
     $pdo->exec($users);
+    $jokesTable = new DatabaseTable($pdo, 'joke', 'id');
 
-    $jokes = allJokes($pdo);
+    $jokes = $jokesTable->allJokes();
 
 
     // while ($row = $result->fetch()) {
     //     $jokes[] = $row['joketext'];
     // }
-    $totalJokes = total($pdo, 'joke');
+    $totalJokes = $jokesTable->total();
     $title = 'Jokes';
     ob_start();
     include __DIR__ . '/../templates/jokes.html.php';
