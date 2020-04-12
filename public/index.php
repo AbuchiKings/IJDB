@@ -10,17 +10,62 @@ function loadTemplate($templateFileName, $variables = [])
 try {
     include __DIR__ . '/../includes/DatabaseConnection.php';
     include __DIR__ . '/../classes/DatabaseTable.php';
-    include __DIR__ . '/../controllers/JokeController.php';
     $jokesTable = new DatabaseTable($pdo, 'joke', 'id');
     $authorsTable = new DatabaseTable($pdo, 'author', 'id');
-    $jokeController = new JokeController(
-        $jokesTable,
-        $authorsTable
-    );
 
-    $action = $_GET['action'] ?? 'home';
-    $page = $jokeController->$action();
+    //if no route variable is set, use 'joke/home'
+
+    $route = $_GET['route'] ?? 'joke/home';
+
+    if ($route == strtolower($route)) {
+        if ($route === 'joke/list') {
+            include __DIR__ .
+                '/../classes/controllers/JokeController.php';
+            $controller = new JokeController(
+                $jokesTable,
+                $authorsTable
+            );
+            $page = $controller->list();
+
+        } elseif ($route === 'joke/home') {
+            include __DIR__ .
+                '/../classes/controllers/JokeController.php';
+            $controller = new JokeController(
+                $jokesTable,
+                $authorsTable
+            );
+            $page = $controller->home();
+
+        } elseif ($route === 'joke/edit') {
+            include __DIR__ .
+                '/../classes/controllers/JokeController.php';
+            $controller = new JokeController(
+                $jokesTable,
+                $authorsTable
+            );
+            $page = $controller->edit();
+
+        } elseif ($route === 'joke/delete') {
+            include __DIR__ .
+                '/../classes/controllers/JokeController.php';
+            $controller = new JokeController(
+                $jokesTable,
+                $authorsTable
+            );
+            $page = $controller->delete();
+
+        } elseif ($route === 'register') {
+            include __DIR__ .
+                '/../classes/controllers/RegisterController.php';
+            $controller = new RegisterController($authorsTable);
+            $page = $controller->showForm();
+        }
+    } else {
+        http_response_code(301);
+        header('location: index.php?route=' . strtolower($route));
+    }
     $title = $page['title'];
+    
     if (isset($page['variables'])) {
         $output = loadTemplate(
             $page['template'],
@@ -31,7 +76,8 @@ try {
     }
 } catch (PDOException $e) {
     $title = 'An error has occurred';
-    $output = 'Database error: ' . $e->getMessage() . ' in '
+    $output = 'Error: ' . $e->getMessage() . ' in '
         . $e->getFile() . ':' . $e->getLine();
 }
+
 include __DIR__ . '/../templates/layout.html.php';
