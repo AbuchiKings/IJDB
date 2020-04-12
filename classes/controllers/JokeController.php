@@ -43,7 +43,7 @@ class JokeController
             $joke['jokedate'] = new DateTime();
             $joke['authorId'] = 1;
             $this->jokesTable->save($joke);
-            header('location: index.php?action=list');
+            header('location: /joke/list');
         } else {
             if (isset($_GET['id'])) {
                 $joke = $this->jokesTable->findById($_GET['id']);
@@ -63,6 +63,6 @@ class JokeController
     {
         $this->jokesTable->delete($_POST['id']);
 
-        header('location: index.php?action=list', 200);
+        header('location: /joke/list', 301);
     }
 }
