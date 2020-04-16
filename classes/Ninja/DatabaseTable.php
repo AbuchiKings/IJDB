@@ -1,4 +1,5 @@
 <?php
+
 namespace Ninja;
 
 class DatabaseTable
@@ -14,7 +15,7 @@ class DatabaseTable
         $this->primaryKey = $primaryKey;
     }
 
-    private function query( $sql, $parameters = [])
+    private function query($sql, $parameters = [])
     {
         $query = $this->pdo->prepare($sql);
         $query->execute($parameters);
@@ -38,7 +39,7 @@ class DatabaseTable
     WHERE `' . $this->primaryKey . '` = :id', $parameters);
     }
 
-    private function insert( $fields)
+    private function insert($fields)
     {
         $query = 'INSERT INTO `' . $this->table . '` (';
         foreach ($fields as $key => $value) {
@@ -52,7 +53,7 @@ class DatabaseTable
         $query = rtrim($query, ',');
         $query .= ')';
         $fields = $this->processDates($fields);
-        $this->query( $query, $fields);
+        $this->query($query, $fields);
     }
 
     private function update($fields)
@@ -77,7 +78,7 @@ class DatabaseTable
             }
             $this->insert($record);
         } catch (\PDOException $e) {
-            $this->update( $record);
+            $this->update($record);
         }
     }
 
@@ -96,7 +97,7 @@ class DatabaseTable
         return $result->fetchAll();
     }
 
-    public function findById( $value)
+    public function findById($value)
     {
         $query = 'SELECT * FROM `' . $this->table . '`
         WHERE `' . $this->primaryKey . '` = :value';
@@ -105,6 +106,17 @@ class DatabaseTable
         ];
         $query = $this->query($query, $parameters);
         return $query->fetch();
+    }
+
+    public function find($column, $value)
+    {
+        $query = 'SELECT * FROM ' . $this->table . ' WHERE ' .
+            $column . ' = :value';
+        $parameters = [
+            'value' => $value
+        ];
+        $query = $this->query($query, $parameters);
+        return $query->fetchAll();
     }
 
     public function allJokes()
