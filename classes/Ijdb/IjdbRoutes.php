@@ -25,7 +25,7 @@ class IjdbRoutes implements \Ninja\Routes
                 'password'
             );
     }
-    
+
     public function getRoutes()
     {
         include __DIR__ . '/../../includes/DatabaseConnection.php';
@@ -67,5 +67,10 @@ class IjdbRoutes implements \Ninja\Routes
         ];
 
         return $routes;
+    }
+
+    public function getAuthentication()
+    {
+        return $this->authentication;
     }
 }
