@@ -16,7 +16,6 @@ class EntryPoint
         $this->routes = $routes;
         $this->method = $method;
         $this->checkUrl();
-        
     }
 
     private function checkUrl()
@@ -40,6 +39,7 @@ class EntryPoint
     public function run()
     {
         $routes = $this->routes->getRoutes();
+        $authentication = $this->routes->getAuthentication();
 
         if (
             isset($routes[$this->route]['login']) &&

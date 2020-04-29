@@ -37,7 +37,7 @@ class IjdbRoutes implements \Ninja\Routes
             $authorsTable
         );
         $authorController = new \Ijdb\Controllers\Register($authorsTable);
-        $loginController = new \Ijdb\Controllers\Login();
+        $loginController = new \Ijdb\Controllers\Login($this->authentication);
         $routes = [
             'author/register' => [
                 'GET' => ['controller' => $authorController, 'action' => 'registrationForm'],
@@ -65,6 +65,24 @@ class IjdbRoutes implements \Ninja\Routes
                     'controller' => $loginController,
                     'action' => 'error'
                 ]
+            ],
+
+            'login' => [
+                'GET' => [
+                    'controller' => $loginController,
+                    'action' => 'loginForm'
+                ],
+                'POST' => [
+                    'controller' => $loginController,
+                    'action' => 'processLogin'
+                ]
+            ],
+            'login/success' => [
+                'GET' => [
+                    'controller' => $loginController,
+                    'action' => 'success'
+                ],
+                'login' => true
             ],
 
             '' => [
