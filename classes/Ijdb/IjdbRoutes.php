@@ -33,10 +33,10 @@ class IjdbRoutes implements \Ninja\Routes
         $jokesTable = new \Ninja\DatabaseTable($pdo, 'joke', 'id');
         $authorsTable = new \Ninja\DatabaseTable($pdo, 'author', 'id');
         $jokeController = new \Ijdb\Controllers\Joke(
-            $jokesTable,
-            $authorsTable
+            $this->jokesTable,
+            $this->authorsTable, $this->authentication
         );
-        $authorController = new \Ijdb\Controllers\Register($authorsTable);
+        $authorController = new \Ijdb\Controllers\Register($this->authorsTable);
         $loginController = new \Ijdb\Controllers\Login($this->authentication);
         $routes = [
             'author/register' => [
@@ -83,6 +83,13 @@ class IjdbRoutes implements \Ninja\Routes
                     'action' => 'success'
                 ],
                 'login' => true
+            ],
+
+            'logout' => [
+                'GET' => [
+                    'controller' => $loginController,
+                    'action' => 'logout'
+                ]
             ],
 
             '' => [
