@@ -121,7 +121,7 @@ class DatabaseTable
 
     public function allJokes()
     {
-        $sql = 'SELECT `joke`.`id`, `joketext`, `jokedate`,`name`, `email`
+        $sql = 'SELECT `joke`.`id`, `joke`.`authorid`, `joketext`, `jokedate`,`name`, `email`
         FROM `joke` INNER JOIN `author` ON `authorid` = `author`.`id`';
         $jokes =  $this->query($sql);
         return $jokes->fetchAll();

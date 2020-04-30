@@ -30,15 +30,30 @@ class Joke
     public function list()
     {
 
-        $jokes = $this->jokesTable->allJokes();
+        $result = $this->jokesTable->allJokes();
 
-        $totalJokes = $this->jokesTable->total();
         $title = 'Jokes';
+        $jokes = [];
+        foreach ($result as $joke) {
+            $author = $this->authorsTable->findById($joke['authorid']);
+            $jokes[] = [
+                'id' => $joke['id'],
+                'joketext' => $joke['joketext'],
+                'jokedate' => $joke['jokedate'],
+                'name' => $author['name'],
+                'email' => $author['email'],
+                'authorId' => $author['id']
+            ];
+        }
+        $totalJokes = $this->jokesTable->total();
+
+        $author = $this->authentication->getUser();
         return [
             'template' => 'jokes.html.php',
             'title' => $title, 'variables' => [
                 'totalJokes' => $totalJokes,
-                'jokes' => $jokes
+                'jokes' => $jokes,
+                'userId' => $author['id'] ?? null
             ]
         ];
     }
