@@ -30,22 +30,22 @@ class Joke
     public function list()
     {
 
-        $result = $this->jokesTable->allJokes();
+        $jokes = $this->jokesTable->findAll();
 
         $title = 'Jokes';
-        $jokes = [];
-        foreach ($result as $joke) {
-            $author = $this->authorsTable->findById($joke->authorid);
-            $jokes[] = [
-                'id' => $joke->id,
-                'joketext' => $joke->joketext,
-                'jokedate' => $joke->jokedate,
-                'name' => $author->name,
-                'email' => $author->email,
-                'authorId' => $joke->authorid
+        // $jokes = [];
+        // foreach ($result as $joke) {
+        //     $author = $this->authorsTable->findById($joke->authorid);
+        //     $jokes[] = [
+        //         'id' => $joke->id,
+        //         'joketext' => $joke->joketext,
+        //         'jokedate' => $joke->jokedate,
+        //         'name' => $author->name,
+        //         'email' => $author->email,
+        //         'authorId' => $joke->authorid
 
-            ];
-        }
+        //     ];
+        // }
         $totalJokes = $this->jokesTable->total();
 
         $author = $this->authentication->getUser();

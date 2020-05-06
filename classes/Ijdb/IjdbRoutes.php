@@ -11,14 +11,16 @@ class IjdbRoutes implements \Ninja\Routes
         $this->jokesTable = new \Ninja\DatabaseTable(
             $pdo,
             'joke',
-            'id'
+            'id',
+            '\Ijdb\Entity\Joke',
+            [&$this->authorsTable]
         );
         $this->authorsTable = new \Ninja\DatabaseTable(
             $pdo,
             'author',
             'id',
             '\Ijdb\Entity\Author',
-            [$this->jokesTable]
+            [&$this->jokesTable]
         );
         $this->authentication =
             new \Ninja\Authentication(
