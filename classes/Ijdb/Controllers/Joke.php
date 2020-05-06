@@ -35,14 +35,15 @@ class Joke
         $title = 'Jokes';
         $jokes = [];
         foreach ($result as $joke) {
-            $author = $this->authorsTable->findById($joke['authorid']);
+            $author = $this->authorsTable->findById($joke->authorid);
             $jokes[] = [
-                'id' => $joke['id'],
-                'joketext' => $joke['joketext'],
-                'jokedate' => $joke['jokedate'],
-                'name' => $author['name'],
-                'email' => $author['email'],
-                'authorId' => $author['id']
+                'id' => $joke->id,
+                'joketext' => $joke->joketext,
+                'jokedate' => $joke->jokedate,
+                'name' => $author->name,
+                'email' => $author->email,
+                'authorId' => $joke->authorid
+
             ];
         }
         $totalJokes = $this->jokesTable->total();
@@ -53,7 +54,7 @@ class Joke
             'title' => $title, 'variables' => [
                 'totalJokes' => $totalJokes,
                 'jokes' => $jokes,
-                'userId' => $author['id'] ?? null
+                'userId' => $author->id ?? null
             ]
         ];
     }
@@ -61,7 +62,7 @@ class Joke
     public function saveEdit()
     {
         $author = $this->authentication->getUser();
-        
+
         $joke = $_POST['joke'];
         $joke['jokedate'] = new \DateTime();
         $author->addJoke($joke);
@@ -81,7 +82,7 @@ class Joke
             'title' => $title,
             'variables' => [
                 'joke' => $joke ?? null,
-                'userId' => $author['id'] ?? null
+                'userId' => $author->id ?? null
             ]
         ];
     }
@@ -91,7 +92,7 @@ class Joke
     {
         $author = $this->authentication->getUser();
         $joke = $this->jokesTable->findById($_POST['id']);
-        if ($joke['authorId'] != $author['id']) {
+        if ($joke->authorid != $author->id) {
             return;
         }
         $this->jokesTable->delete($_POST['id']);

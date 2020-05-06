@@ -144,6 +144,10 @@ class DatabaseTable
         $sql = 'SELECT `joke`.`id`, `joke`.`authorid`, `joketext`, `jokedate`,`name`, `email`
         FROM `joke` INNER JOIN `author` ON `authorid` = `author`.`id`';
         $jokes =  $this->query($sql);
-        return $jokes->fetchAll();
+        return $jokes->fetchAll(
+            \PDO::FETCH_CLASS,
+            $this->className,
+            $this->constructorArgs
+        );
     }
 }
