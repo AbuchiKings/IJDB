@@ -16,7 +16,9 @@ class IjdbRoutes implements \Ninja\Routes
         $this->authorsTable = new \Ninja\DatabaseTable(
             $pdo,
             'author',
-            'id'
+            'id',
+            '\Ijdb\Entity\Author',
+            [$this->jokesTable]
         );
         $this->authentication =
             new \Ninja\Authentication(
@@ -34,7 +36,8 @@ class IjdbRoutes implements \Ninja\Routes
         $authorsTable = new \Ninja\DatabaseTable($pdo, 'author', 'id');
         $jokeController = new \Ijdb\Controllers\Joke(
             $this->jokesTable,
-            $this->authorsTable, $this->authentication
+            $this->authorsTable,
+            $this->authentication
         );
         $authorController = new \Ijdb\Controllers\Register($this->authorsTable);
         $loginController = new \Ijdb\Controllers\Login($this->authentication);

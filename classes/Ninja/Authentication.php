@@ -29,11 +29,12 @@ class Authentication
 
         if (!empty($user) && password_verify(
             $password,
-            $user[0][$this->passwordColumn]
+            $user[0]->{$this->passwordColumn}
         )) {
             session_regenerate_id();
             $_SESSION['username'] = $username;
-            $_SESSION['password'] = $user[0][$this->passwordColumn];
+            $_SESSION['password'] =
+                $user[0]->{$this->passwordColumn};
             return true;
         } else {
             return false;
@@ -49,9 +50,10 @@ class Authentication
             $this->usernameColumn,
             strtolower($_SESSION['username'])
         );
+        $passwordColumn = $this->passwordColumn;
         if (
             !empty($user) &&
-            $user[0][$this->passwordColumn]
+            $user[0]->{$this->passwordColumn}
             === $_SESSION['password']
         ) {
             return true;

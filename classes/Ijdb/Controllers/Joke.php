@@ -61,16 +61,11 @@ class Joke
     public function saveEdit()
     {
         $author = $this->authentication->getUser();
-        if (isset($_GET['id'])) {
-            $joke = $this->jokesTable->findById($_GET['id']);
-            if ($joke['authorid'] != $author['id']) {
-                return;
-            }
-        }
+        
         $joke = $_POST['joke'];
         $joke['jokedate'] = new \DateTime();
-        $joke['authorId'] = $author['id'];
-        $this->jokesTable->save($joke);
+        $author->addJoke($joke);
+
         header('location: /joke/list');
     }
 
