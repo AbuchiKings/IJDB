@@ -18,7 +18,7 @@ class IjdbRoutes implements \Ninja\Routes
             'joke',
             'id',
             '\Ijdb\Entity\Joke',
-            [&$this->authorsTable]
+            [&$this->authorsTable, &$this->jokeCategoriesTable]
         );
 
         $this->authorsTable = new \Ninja\DatabaseTable(
