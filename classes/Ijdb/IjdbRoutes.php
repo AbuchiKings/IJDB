@@ -35,6 +35,13 @@ class IjdbRoutes implements \Ninja\Routes
             'id'
         );
 
+        $this->jokeCategoriesTable =
+            new \Ninja\DatabaseTable(
+                $pdo,
+                'joke_category',
+                'categoryId'
+            );
+
         $this->authentication =
             new \Ninja\Authentication(
                 $this->authorsTable,
@@ -52,6 +59,7 @@ class IjdbRoutes implements \Ninja\Routes
         $jokeController = new \Ijdb\Controllers\Joke(
             $this->jokesTable,
             $this->authorsTable,
+            $this->categoriesTable,
             $this->authentication
         );
         $authorController = new \Ijdb\Controllers\Register($this->authorsTable);
@@ -131,7 +139,7 @@ class IjdbRoutes implements \Ninja\Routes
                 ],
                 'login' => true
             ],
-            
+
             'category/delete' => [
                 'POST' => [
                     'controller' => $categoryController,

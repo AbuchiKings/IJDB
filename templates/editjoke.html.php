@@ -9,6 +9,12 @@
         <textarea id="joketext" name="joke[joketext]" rows="3" cols="40"><?php if (isset($joke)) : ?>
 <?= $joke->joketext ?>
 <?php endif; ?></textarea>
+
+        <p>Select categories for this joke:</p>
+        <?php foreach ($categories as $category) : ?>
+            <input type="checkbox" name="category[]" value="<?= $category->id ?>" />
+            <label><?= $category->name ?></label>
+        <?php endforeach; ?>
         <input type="submit" name="submit" value="Save">
     </form>
 <?php endif; ?>

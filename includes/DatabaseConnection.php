@@ -9,3 +9,11 @@ $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 //       `name` VARCHAR(255) NULL,
 //       PRIMARY KEY (`id`))';
 // $pdo->exec($cat);
+
+
+// table for linking jokes to categories
+// $cat = 'CREATE TABLE IF NOT EXISTS `joke_category` (
+//       `jokeId` INT NOT NULL,
+//       `categoryId` INT NOT NULL,
+//       PRIMARY KEY (`jokeId`, `categoryId`))';
+// $pdo->exec($cat);
