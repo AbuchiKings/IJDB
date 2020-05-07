@@ -34,7 +34,12 @@ class Joke
     public function list()
     {
 
-        $jokes = $this->jokesTable->findAll();
+        if (isset($_GET['category'])) {
+            $category = $this->categoriesTable->findById($_GET['category']);
+            $jokes = $category->getJokes();
+        } else {
+            $jokes = $this->jokesTable->findAll();
+        }
 
         $title = 'Jokes';
         // $jokes = [];
@@ -58,7 +63,8 @@ class Joke
             'title' => $title, 'variables' => [
                 'totalJokes' => $totalJokes,
                 'jokes' => $jokes,
-                'userId' => $author->id ?? null
+                'userId' => $author->id ?? null,
+                'categories' => $this->categoriesTable->findAll()
             ]
         ];
     }

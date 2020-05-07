@@ -32,7 +32,10 @@ class IjdbRoutes implements \Ninja\Routes
         $this->categoriesTable = new \Ninja\DatabaseTable(
             $pdo,
             'category',
-            'id'
+            'id', 
+            '\ijdb\Entity\Category',
+            [&$this->jokesTable,
+            &$this->jokeCategoriesTable]
         );
 
         $this->jokeCategoriesTable =
