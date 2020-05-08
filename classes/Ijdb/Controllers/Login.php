@@ -60,4 +60,12 @@ class Login
             'title' => 'You have been logged out'
         ];
     }
+
+    function unauthorized()
+    {
+        return [
+            'template' => 'permissionerror.html.php',
+            'title' => 'You are Unauthorized to view this page'
+        ];
+    }
 }

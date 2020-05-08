@@ -32,10 +32,12 @@ class IjdbRoutes implements \Ninja\Routes
         $this->categoriesTable = new \Ninja\DatabaseTable(
             $pdo,
             'category',
-            'id', 
+            'id',
             '\ijdb\Entity\Category',
-            [&$this->jokesTable,
-            &$this->jokeCategoriesTable]
+            [
+                &$this->jokesTable,
+                &$this->jokeCategoriesTable
+            ]
         );
 
         $this->jokeCategoriesTable =
@@ -122,6 +124,12 @@ class IjdbRoutes implements \Ninja\Routes
                     'action' => 'logout'
                 ]
             ],
+            'permissions/unauthorized' => [
+                'GET' => [
+                    'controller' => $loginController,
+                    'action' => 'unauthorized'
+                ]
+            ],
 
             'category/edit' => [
                 'POST' => [
@@ -132,7 +140,8 @@ class IjdbRoutes implements \Ninja\Routes
                     'controller' => $categoryController,
                     'action' => 'edit'
                 ],
-                'login' => true
+                'login' => true,
+                'permissiona' => \Ijdb\Entity\Author::EDIT_CATEGORIES
             ],
 
             'category/list' => [
@@ -140,7 +149,8 @@ class IjdbRoutes implements \Ninja\Routes
                     'controller' => $categoryController,
                     'action' => 'list'
                 ],
-                'login' => true
+                'login' => true,
+                'permissions' => \Ijdb\Entity\Author::LIST_CATEGORIES
             ],
 
             'category/delete' => [
@@ -148,7 +158,9 @@ class IjdbRoutes implements \Ninja\Routes
                     'controller' => $categoryController,
                     'action' => 'delete'
                 ],
-                'login' => true
+                'login' => true,
+                'permissiona' => \Ijdb\Entity\Author::REMOVE_CATEGORIES
+
             ],
 
             '' => [
@@ -162,5 +174,15 @@ class IjdbRoutes implements \Ninja\Routes
     public function getAuthentication(): \Ninja\Authentication
     {
         return $this->authentication;
+    }
+
+    public function checkPermission($permission): bool
+    {
+        $user = $this->authentication->getUser();
+        if ($user && $user->hasPermission($permission)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
