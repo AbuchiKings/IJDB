@@ -78,4 +78,15 @@ class Register
             ];
         }
     }
+    public function list()
+    {
+        $authors = $this->authorsTable->findAll();
+        return [
+            'template' => 'authorlist.html.php',
+            'title' => 'Author List',
+            'variables' => [
+                'authors' => $authors
+            ]
+        ];
+    }
 }
