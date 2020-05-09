@@ -89,4 +89,19 @@ class Register
             ]
         ];
     }
+
+    public function permissions()
+    {
+        $author = $this->authorsTable->findById($_GET['id']);
+        $reflected = new \ReflectionClass('\Ijdb\Entity\Author');
+        $constants = $reflected->getConstants();
+        return [
+            'template' => 'permissions.html.php',
+            'title' => 'Edit Permissions',
+            'variables' => [
+                'author' => $author,
+                'permissions' => $constants
+            ]
+        ];
+    }
 }
