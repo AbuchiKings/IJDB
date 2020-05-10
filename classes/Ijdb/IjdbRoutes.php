@@ -89,7 +89,8 @@ class IjdbRoutes implements \Ninja\Routes
                     'controller' => $authorController,
                     'action' => 'savePermissions'
                 ],
-                'login' => true
+                'login' => true,
+                'permissions' => \Ijdb\Entity\Author::EDIT_USER_ACCESS
             ],
 
             'author/list' => [
@@ -97,7 +98,8 @@ class IjdbRoutes implements \Ninja\Routes
                     'controller' => $authorController,
                     'action' => 'list'
                 ],
-                'login' => true
+                'login' => true,
+                'permissions' => \Ijdb\Entity\Author::EDIT_USER_ACCESS
             ],
 
             'joke/edit' => [
@@ -162,7 +164,7 @@ class IjdbRoutes implements \Ninja\Routes
                     'action' => 'edit'
                 ],
                 'login' => true,
-                'permissiona' => \Ijdb\Entity\Author::EDIT_CATEGORIES
+                'permissions' => \Ijdb\Entity\Author::EDIT_CATEGORIES
             ],
 
             'category/list' => [

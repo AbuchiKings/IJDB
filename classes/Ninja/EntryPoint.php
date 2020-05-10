@@ -51,8 +51,9 @@ class EntryPoint
             isset($routes[$this->route]['permissions'])
             &&
             !$this->routes->checkPermission($routes[$this->route]['permissions'])
-        ) {
+        ) { 
             header('location: /permissions/unauthorized');
+            
         } else {
             $controller = $routes[$this->route][$this->method]['controller'];
             $action = $routes[$this->route][$this->method]['action'];

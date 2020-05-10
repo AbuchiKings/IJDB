@@ -17,3 +17,5 @@ $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 //       `categoryId` INT NOT NULL,
 //       PRIMARY KEY (`jokeId`, `categoryId`))';
 // $pdo->exec($cat);
+
+ //$alter = 'ALTER TABLE `author` ADD COLUMN `permissions` INT(64)';
