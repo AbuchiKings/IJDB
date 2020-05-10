@@ -38,7 +38,6 @@ class Author
 
 	public function hasPermission($permission)
 	{
-        echo $this->permissions;
 		return $this->permissions & $permission;
 	}
 }

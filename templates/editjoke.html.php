@@ -1,4 +1,7 @@
-<?php if ($joke !== null && $userId !== $joke->authorid) : ?>
+<?php if (
+    !empty($joke->id) && ($user->id !== $joke->authorid &&
+        !$user->hasPermission(\Ijdb\Entity\Author::EDIT_JOKES))
+) : ?>
     <p>You may only edit jokes that you posted.</p>
 
 <?php else : ?>
