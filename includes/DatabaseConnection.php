@@ -8,7 +8,6 @@ $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 //       `id` INT NOT NULL AUTO_INCREMENT,
 //       `name` VARCHAR(255) NULL,
 //       PRIMARY KEY (`id`))';
-// $pdo->exec($cat);
 
 
 // table for linking jokes to categories
