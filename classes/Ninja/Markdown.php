@@ -1,5 +1,7 @@
 <?php
 
+namespace Ninja;
+
 class Markdown
 {
     private $string;
@@ -24,7 +26,7 @@ class Markdown
         $text = str_replace("\r\n", "\n", $text);
         // Convert Macintosh (\r) to Unix (\n)
         $text = str_replace("\r", "\n", $text);
-        
+
         // Paragraphs
         $text = '<p>' . str_replace(
             "\n\n",
@@ -33,6 +35,13 @@ class Markdown
         ) . '</p>';
         // Line breaks
         $text = str_replace("\n", '<br>', $text);
+
+        // hyperlinks [linked text](link URL)
+        $text = preg_replace(
+            '/\[([^\]]+)]\(([-a-z0-9._~:\/?#@!$&\'()*+,;=%]+)\)/i',
+            '<a href="$2">$1</a>',
+            $text
+        );
         return $text;
     }
 }
