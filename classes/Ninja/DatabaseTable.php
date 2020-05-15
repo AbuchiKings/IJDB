@@ -112,9 +112,13 @@ class DatabaseTable
         return $row[0];
     }
 
-    public function findAll()
+    public function findAll($orderBy = null)
     {
-        $result = $this->query('SELECT * FROM `' . $this->table . '`');
+        $query = 'SELECT * FROM ' . $this->table;
+        if ($orderBy != null) {
+            $query .= ' ORDER BY ' . $orderBy;
+        }
+        $result = $this->query($query);
         return $result->fetchAll(
             \PDO::FETCH_CLASS,
             $this->className,
