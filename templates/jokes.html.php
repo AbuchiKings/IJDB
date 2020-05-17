@@ -59,7 +59,9 @@
     // Display link to each page
     for ($i = 1; $i <= $numPages; $i++) :
         if ($i == $currentPage) : ?>
-            <a class="currentpage" href="/joke/list?page=<?= $i ?>"><?= $i ?></a>
+            <a class="currentpage" href="/joke/list?page=<?= $i ?>
+             <?= !empty($categoryId) ?
+                    '&category=' . $categoryId : '' ?>"><?= $i ?></a>
         <?php else : ?>
             <a href="/joke/list?page=<?= $i ?>"><?= $i ?></a>
         <?php endif; ?>

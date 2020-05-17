@@ -18,9 +18,15 @@ class Category
         $this->jokeCategoriesTable = $jokeCategoriesTable;
     }
 
-    public function getJokes()
+    public function getJokes($limit = null, $offset = null)
     {
-        $jokeCategories = $this->jokeCategoriesTable->find('categoryId', $this->id, null, 3);
+        $jokeCategories = $this->jokeCategoriesTable->find(
+            'categoryId',
+            $this->id,
+            null,
+            $limit,
+            $offset
+        );
         $jokes = [];
         foreach ($jokeCategories as $jokeCategory) {
             $joke = $this->jokesTable->findById($jokeCategory->jokeId);
@@ -42,5 +48,13 @@ class Category
         }
         return $aDate->getTimestamp() >
             $bDate->getTimestamp() ? -1 : 1;
+    }
+
+    public function getNumJokes()
+    {
+        return $this->jokeCategoriesTable->total(
+            'categoryId',
+            $this->id
+        );
     }
 }

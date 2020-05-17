@@ -222,7 +222,7 @@
  .categories {
      display: table-cell;
      width: 20%;
-     ackground-color: #333;
+     background-color: #333;
      padding: 1em;
      list-style-type: none;
  }
