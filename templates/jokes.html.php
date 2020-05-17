@@ -51,4 +51,17 @@
             </p>
         </blockquote>
     <?php endforeach; ?>
+    Select page:
+    <?php
+    //Calculate the total number of pages
+    $numPages = ceil($totalJokes / 3);
+
+    // Display link to each page
+    for ($i = 1; $i <= $numPages; $i++) :
+        if ($i == $currentPage) : ?>
+            <a class="currentpage" href="/joke/list?page=<?= $i ?>"><?= $i ?></a>
+        <?php else : ?>
+            <a href="/joke/list?page=<?= $i ?>"><?= $i ?></a>
+        <?php endif; ?>
+    <?php endfor; ?>
 </div>

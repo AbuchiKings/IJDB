@@ -17,10 +17,10 @@ class Category
         $this->jokesTable = $jokesTable;
         $this->jokeCategoriesTable = $jokeCategoriesTable;
     }
-    
+
     public function getJokes()
     {
-        $jokeCategories = $this->jokeCategoriesTable->find('categoryId', $this->id);
+        $jokeCategories = $this->jokeCategoriesTable->find('categoryId', $this->id, null, 3);
         $jokes = [];
         foreach ($jokeCategories as $jokeCategory) {
             $joke = $this->jokesTable->findById($jokeCategory->jokeId);

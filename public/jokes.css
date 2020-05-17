@@ -240,3 +240,11 @@
      display: table-cell;
      padding: 1em;
  }
+
+ .currentpage:before {
+     content: "[";
+ }
+
+ .currentpage:after {
+     content: "]";
+ }

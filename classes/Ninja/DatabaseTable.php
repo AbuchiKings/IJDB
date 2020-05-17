@@ -112,12 +112,21 @@ class DatabaseTable
         return $row[0];
     }
 
-    public function findAll($orderBy = null)
+    public function findAll($orderBy = null, $limit = null, $offset = null)
     {
         $query = 'SELECT * FROM ' . $this->table;
         if ($orderBy != null) {
             $query .= ' ORDER BY ' . $orderBy;
         }
+
+        if ($limit != null) {
+            $query .= ' LIMIT ' . $limit;
+        }
+
+        if ($offset != null) {
+            $query .= ' OFFSET ' . $offset;
+        }
+
         $result = $this->query($query);
         return $result->fetchAll(
             \PDO::FETCH_CLASS,
@@ -140,13 +149,26 @@ class DatabaseTable
         );
     }
 
-    public function find($column, $value)
-    {
-        $query = 'SELECT * FROM ' . $this->table . ' WHERE ' .
-            $column . ' = :value';
+    public function find(
+        $column,
+        $value,
+        $orderBy = null,
+        $limit = null,
+        $offset = null
+    ) {
+        $query = 'SELECT * FROM ' . $this->table . ' WHERE ' . $column . ' = :value';
         $parameters = [
             'value' => $value
         ];
+        if ($orderBy != null) {
+            $query .= ' ORDER BY ' . $orderBy;
+        }
+        if ($limit != null) {
+            $query .= ' LIMIT ' . $limit;
+        }
+        if ($offset != null) {
+            $query .= ' OFFSET ' . $offset;
+        }
         $query = $this->query($query, $parameters);
         return $query->fetchAll(
             \PDO::FETCH_CLASS,
